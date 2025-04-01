@@ -1,0 +1,3 @@
+<x-auth-layout>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, dolorum repellat dicta natus non omnis asperiores ipsa sint mollitia voluptas, nobis obcaecati cupiditate ipsum assumenda incidunt distinctio. Doloribus laboriosam possimus ex maxime quam tenetur magnam nobis voluptate eligendi. Dignissimos autem ut voluptate incidunt eveniet esse veritatis inventore nesciunt labore sed?</p>
+</x-auth-layout>

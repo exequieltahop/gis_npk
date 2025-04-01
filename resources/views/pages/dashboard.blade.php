@@ -1,0 +1,3 @@
+<x-guest-layout title="Dashboard">
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut blanditiis labore obcaecati facilis dolore fuga culpa illo beatae sunt, ipsa corrupti illum voluptas est? Dignissimos, sint quod. Incidunt dolores sint similique sunt praesentium nemo culpa facere rerum non? Iusto natus inventore aperiam alias qui veniam voluptatem neque dolorem accusantium sed.</p>
+</x-guest-layout>
