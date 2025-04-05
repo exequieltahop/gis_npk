@@ -164,3 +164,11 @@
     </x-form>
 </x-modal>
 
+{{-- modal show marker details --}}
+<x-modal modal-id="modal-marker-details" modal-title="Details">
+    <x-input type="number"
+        id="x_coordinate"
+        step="any"
+        :required="false"/>
+</x-modal>
+

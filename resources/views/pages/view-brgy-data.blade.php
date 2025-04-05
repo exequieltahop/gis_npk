@@ -71,7 +71,13 @@
 
                         // add click event in the marker
                         marker.on('click', () => {
+                            const x_coordinate_input = document.getElementById('x_coordinate');
 
+                            x_coordinate_input.value = element.x_coordinate;
+
+                            // show modal
+                            const modal_details = new bootstrap.Modal(document.getElementById('modal-marker-details'));
+                            modal_details.show();
                         });
                     }
                 }
