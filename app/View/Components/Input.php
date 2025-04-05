@@ -12,16 +12,19 @@ class Input extends Component
      * Create a new component instance.
      */
 
-    public $type, $id, $name, $required, $label, $inputClass;
+    public $type, $id, $name, $required, $label, $inputClass, $value;
 
-    public function __construct($type, $id, $name, $required = true, $label, $inputClass = '')
+    public function __construct($id = '', $name = '', $label = '', $type = 'text', $required = true, $inputClass = '', $value = '')
     {
         $this->type = $type;
         $this->id = $id;
         $this->name = $name;
         $this->required = $required;
         $this->label = $label;
+        $this->inputClass = $inputClass;
+        $this->value = $value;
     }
+
 
     /**
      * Get the view / contents that represent the component.

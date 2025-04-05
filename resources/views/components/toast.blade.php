@@ -1,10 +1,14 @@
-@props(['type'=> 'primary'])
+@props(['type'=> 'primary', 'toasttype' => ''])
 
-<div class="toast align-items-center text-bg-{{$type}} border-0" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex">
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div class="toast text-bg-{{$type}}" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-body">
-            {{$slot}}
+            <div class="d-flex justify-content-between p-2">
+                <strong style="text-transform: uppercase;">
+                    {{$slot}}
+                </strong>
+                <button class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="close"></button>
+            </div>
         </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
 </div>

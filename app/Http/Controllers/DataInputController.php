@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use App\Models\GeoLocationDataAndNpk;
 
 class DataInputController extends Controller
 {
+    // view blade data input
     public function view_data_input() {
         try {
             return view('pages.data-input');
@@ -17,49 +20,48 @@ class DataInputController extends Controller
         }
     }
 
-    // sign in
-    public function sign_in(Request $request) {
-        try {
-            // validate
-            $request->validate([
-                'email' => ['required', 'email'],
-                'password' => ['required', 'min:8']
-            ]);
+    // public add new data
+    public function addData(Request $request) {
 
-            // authenticate
-            if(!Auth::attempt([
-                'email' => $request->email,
-                'password' => $request->password
-            ])){
-                Log::error("Error : 401");
-                session()->flash('error' , 'Invalid Credential');
-                return redirect()
-                    ->back();
-            }else{
-                return redirect()->route('data-input'); // if success then return view data input
-            }
+        // validate data
+        $request->validate([
+            'brgy' => ['required'],
+            'x_coordinate' => ['required'],
+            'y_coordinate' => ['required'],
+            'n' => ['required'],
+            'p' => ['required'],
+            'k' => ['required']
+        ]);
 
-        } catch (\Throwable $th) { // catch errors and exceptions
-            Log::error("Error : ".$th->getMessage());
-            session()->flash('error' , 'Unexpected Error! Pls Contact Developer');
-            return redirect()
-                ->back();
-        }
-    }
+        $brgy_id = Crypt::decrypt($request->brgy);
 
-    // logout
-    public function logout(Request $request) {
-        try {
-            Auth::logout(); // Logout the user
+        // data for insertion
+        $data_create = [
+            'brgy_id' => $brgy_id,
+            'x_coordinate' => $request->x_coordinate,
+            'y_coordinate' => $request->y_coordinate,
+            'n' => $request->n,
+            'p' => $request->p,
+            'k' => $request->k
+        ];
 
-            // Invalidate session and regenerate CSRF token
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
+        // get status
+        $status = GeoLocationDataAndNpk::create($data_create);
 
-            return redirect('/');
-        } catch (\Throwable $th) { // catch errors and exceptions
-            Log::error("Error : ".$th->getMessage());
-            abort(500);
+        /**
+         * check if successfully added data into database
+         * if not then log error
+         * make error session flash
+         * then return redirect back
+         */
+        if(!$status){
+            session()->flash('error', 'Failed to add data, If the problem persist, Pls contact developer!, Thank you');
+            Log::error("Failed to add data for geo_location and npks!");
+            return redirect()->back();
+        }else{
+            // success and redirect
+            session()->flash('success', 'Successfully added data!');
+            return redirect()->back();
         }
     }
 }

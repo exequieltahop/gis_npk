@@ -12,13 +12,14 @@ class Modal extends Component
      * Create a new component instance.
      */
 
-    public $modalId, $modalTitle, $modalBodyClass;
+    public $modalId, $modalTitle, $modalBodyClass, $modalDialogStyle;
 
-    public function __construct($modalId, $modalTitle, $modalBodyClass = '')
+    public function __construct($modalId, $modalTitle, $modalBodyClass = '', $modalDialogStyle = '')
     {
         $this->modalId = $modalId;
         $this->modalTitle = $modalTitle;
         $this->modalBodyClass = $modalBodyClass;
+        $this->modalDialogStyle = $modalDialogStyle;
     }
 
     /**
