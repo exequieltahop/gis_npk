@@ -1,4 +1,4 @@
-window.onload = ()=>{
+document.addEventListener('DOMContentLoaded', ()=>{
     // set toast
     const toastElList = document.querySelector('.toast')
 
@@ -18,7 +18,7 @@ window.onload = ()=>{
 
     // init delete brgy
     delete_brgy_init(tableBrgyList);
-};
+});
 
 // edit brgy init
 function edit_brgy_init(tableBrgyList){
@@ -45,7 +45,6 @@ function edit_brgy_init(tableBrgyList){
     });
 }
 
-
 // delete brgy init
 function delete_brgy_init(tableBrgyList){
     tableBrgyList.on('click', '.delete-barangay-button', function(e){
@@ -65,26 +64,26 @@ function delete_brgy_init(tableBrgyList){
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!"
-          }).then(async (result) => {
-            /**
-             * if confirm then delete via fetch api
-             */
-            if (result.isConfirmed) {
-                try {
-                    const response = await fetch(`delete-brgy/${id}`, {
-                        method : 'DELETE',
-                        headers : {
-                            'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').content
-                        }
-                    });
+        }).then(async (result) => {
+        /**
+         * if confirm then delete via fetch api
+         */
+        if (result.isConfirmed) {
+            try {
+                const response = await fetch(`delete-brgy/${id}`, {
+                    method : 'DELETE',
+                    headers : {
+                        'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').content
+                    }
+                });
 
-                    /**
-                     * if success then
-                     * show success message
-                     * then reload
-                     */
-                    if(response.ok){
-                        document.body.innerHTML += `<div class="toast-container position-fixed top-0 end-0 p-3">
+                /**
+                 * if success then
+                 * show success message
+                 * then reload
+                 */
+                if(response.ok){
+                    document.body.innerHTML += `<div class="toast-container position-fixed top-0 end-0 p-3">
                                                     <div class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
                                                         <div class="toast-body">
                                                             <div class="d-flex justify-content-between p-2">
@@ -97,39 +96,39 @@ function delete_brgy_init(tableBrgyList){
                                                     </div>
                                                 </div>`;
 
-                        // show bootstrap toast
-                        const toast_element = new bootstrap.Toast(document.querySelector('.toast'));
-                        toast_element.show();
-
-                        setTimeout(()=>{ window.location.reload() },1500);
-                    }else{ // else throw new error
-                        throw new Error("");
-
-                    }
-                } catch (error) {
-                    /**
-                     * catch and show error message
-                     */
-                    console.error(error.message);
-                    document.body.innerHTML += `<div class="toast-container position-fixed top-0 end-0 p-3">
-                                                    <div class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
-                                                        <div class="toast-body">
-                                                            <div class="d-flex justify-content-between p-2">
-                                                                <strong style="text-transform: uppercase;">
-                                                                    Failed to Delete, If the problem persist, pls contact developer!, Thank you
-                                                                </strong>
-                                                                <button class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="close"></button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>`;
-
                     // show bootstrap toast
                     const toast_element = new bootstrap.Toast(document.querySelector('.toast'));
                     toast_element.show();
+
+                    setTimeout(()=>{ window.location.reload() },1500);
+                }else{ // else throw new error
+                    throw new Error("");
+
                 }
+            } catch (error) {
+                /**
+                 * catch and show error message
+                 */
+                console.error(error.message);
+                document.body.innerHTML += `<div class="toast-container position-fixed top-0 end-0 p-3">
+                                                <div class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                                                    <div class="toast-body">
+                                                        <div class="d-flex justify-content-between p-2">
+                                                            <strong style="text-transform: uppercase;">
+                                                                Failed to Delete, If the problem persist, pls contact developer!, Thank you
+                                                            </strong>
+                                                            <button class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="close"></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+
+                // show bootstrap toast
+                const toast_element = new bootstrap.Toast(document.querySelector('.toast'));
+                toast_element.show();
             }
-          });
+        }
+        });
 
     });
 }

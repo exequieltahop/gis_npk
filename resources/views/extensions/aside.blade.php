@@ -31,6 +31,8 @@
         {{-- <hr> --}}
         <div class="offcanvas-body">
             <ul class="nav">
+
+                {{-- dashboard --}}
                 <li class="nav-item w-100">
                     <a href="{{ route('dashboard') }}" class="nav-link d-flex align-items-center gap-2 text-dark @if (Route::currentRouteName() == "dashboard") active @endif">
                         <i class="bi bi-speedometer"></i>
@@ -39,6 +41,8 @@
                         </span>
                     </a>
                 </li>
+
+                {{-- brgys --}}
                 <li class="nav-item w-100">
                     <div class="dropdown">
                         <button class="nav-link d-flex align-items-center gap-2 text-dark dropdown-toggle"
@@ -49,10 +53,9 @@
                             <i class="bi bi-geo-alt-fill"></i>
                             <span>Barangay</span>
                         </button>
-
                         <ul class="dropdown-menu" aria-labelledby="barangayDropdown" role="menu">
 
-                             {{-- check if log in --}}
+                            {{-- check if log in --}}
                             @if (auth()->check())
                                 <li style="cursor: pointer;">
                                     <a class="dropdown-item" href="#"
@@ -78,7 +81,7 @@
                             {{-- loop the brgys in the database --}}
                             @foreach (App\Models\Barangay::getAll() as $item)
                                 <li style="cursor: pointer;">
-                                    <a class="dropdown-item" href="#/{{$item->encrypted_id}}">
+                                    <a class="dropdown-item" href="{{ route('view-brgy-data', ['id' => $item->encrypted_id]) }}">
                                         <i class="bi bi-geo" style="font-style: normal;"> {{$item->name}}</i>
                                     </a>
                                 </li>
@@ -87,6 +90,8 @@
                         </ul>
                     </div>
                 </li>
+
+                {{-- heat map --}}
                 <li class="nav-item w-100">
                     <a href="" class="nav-link d-flex align-items-center gap-2  text-dark">
                         <i class="bi bi-map"></i>
@@ -118,15 +123,16 @@
                 @endif
 
                 @if (auth()->check())
-                    {{-- log out --}}
+                {{-- log out --}}
                     <li class="nav-item w-100">
-                        <i class="bi bi-box-arrow-right" style="font-style: normal;"> Log Out</i>
+                        <a href="{{ route('logout') }}" class="nav-link d-flex align-items-center gap-2  text-dark">
+                            <i class="bi bi-box-arrow-right" style="font-style: normal;"> Log Out</i>
+                        </a>
                     </li>
                 @endif
             </ul>
         </div>
       </div>
-
 
     <div class="d-none d-sm-block w-100" style="max-width: 200px;">
         <div class="d-flex justify-content-center align-items-center w-100">

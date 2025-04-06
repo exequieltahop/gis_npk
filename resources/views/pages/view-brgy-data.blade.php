@@ -21,17 +21,22 @@
 
     </x-card>
 
-
     {{-- script --}}
     <script>
-        window.onload = () => {
+        document.addEventListener('DOMContentLoaded', ()=> {
+
             const id = document.getElementById('hidden-brgy-id').value;
+
             // init map
             get_map_data(id);
-        };
+        });
 
         // get map data
         async function get_map_data(id){
+            // error toaster
+            const danger_container = document.getElementById('toast-danger');
+            const danger = document.getElementById('toast-danger-message');
+
             try {
                 // uri
                 const uri = `/get-brgy-data/${id}`;
@@ -40,8 +45,6 @@
 
                 // if not okay
                 if(!response.ok){
-                    const danger_container = document.getElementById('toast-danger');
-                    const danger = document.getElementById('toast-danger-message');
 
                     // toast danger
                     if(danger_container && danger){
@@ -69,11 +72,47 @@
                     for (const element of data) {
                         const marker = L.marker([element.x_coordinate, element.y_coordinate]).addTo(map);
 
+                        // get recommended plants and fertilizer
+                        const recommended_plants = element.recommended.plants;
+                        const recommended_fertilizer = element.recommended.fertilizers;
+
                         // add click event in the marker
                         marker.on('click', () => {
-                            const x_coordinate_input = document.getElementById('x_coordinate');
 
-                            x_coordinate_input.value = element.x_coordinate;
+                            /**
+                             * get card text details elements
+                             */
+                            const n = document.getElementById('n-value');
+                            const p = document.getElementById('p-value');
+                            const k = document.getElementById('k-value');
+                            const more_npk_info = document.getElementById('more-npk-info');
+                            const recommended_plant_list = document.getElementById('recommended-plants');
+                            const recommended_fertilizer_list = document.getElementById('recommended-fertilizer');
+
+                            // assign textcontent
+                            n.textContent = element.n;
+                            p.textContent = element.p;
+                            k.textContent = element.k;
+
+                            // loop recommended plant data
+                            for (const plant of recommended_plants) {
+                                recommended_plant_list.innerHTML += `<li>
+                                                                        <a href="https://google.com/search?q=${encodeURIComponent(plant)}"
+                                                                            target="_blank">
+                                                                                ${plant}
+                                                                        </a>
+                                                                    </li>`;
+                            }
+
+                            // loop recommended fertilizer
+                            for (const fertilizer of recommended_fertilizer) {
+                                recommended_fertilizer_list.innerHTML += `<li>
+                                                                            <a href="https://google.com/search?q=${encodeURIComponent(fertilizer)}"
+                                                                                target="_blank">
+                                                                                    ${fertilizer}
+                                                                            </a>
+                                                                        </li>`;
+                            }
 
                             // show modal
                             const modal_details = new bootstrap.Modal(document.getElementById('modal-marker-details'));
@@ -82,7 +121,13 @@
                     }
                 }
             } catch (error) {
+                /**
+                 * catch errors and display errors
+                 */
+                console.error(error.message);
 
+                danger.textContent = 'Unexptectd error, If the problem persist, Pls contact developer!';
+                danger_container.style.display = "flex";
             }
         }
 

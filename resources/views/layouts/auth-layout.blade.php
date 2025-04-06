@@ -21,21 +21,18 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="{{asset('assets/bootstrap-5.3.3-dist/font/bootstrap-icons.css')}}">
 
-    {{-- data tables assets --}}
-    <link rel="stylesheet" href="{{ asset('assets/DataTables/datatables.css') }}">
-    <script src="{{ asset('assets/DataTables/datatables.js') }}"></script>
-
     {{-- sweet alert2 --}}
-    {{-- <script src="{{asset('assets/sweetalert2/dist/sweetalert2.all.min.js')}}"></script>
-    <link rel="stylesheet" href="{{asset('assets/sweetalert2/dist/sweetalert2.min.css')}}"> --}}
+    <script src="{{asset('assets/sweetalert2/dist/sweetalert2.all.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('assets/sweetalert2/dist/sweetalert2.min.css')}}">
+
+    {{-- data tables assets --}}
     <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
 
     {{-- leaflet assets --}}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="{{ asset('assets/leaflet/leaflet.css') }}">
+    <script src="{{asset('assets/leaflet/leaflet.js')}}"></script>
 
     {{-- main script --}}
     <script src="{{asset('assets/js/main.js')}}"></script>
@@ -125,7 +122,7 @@
         </div>
     </div>
 
-    <div class="toast-container position-fixed top-0 end-0 p-3" id="toast-success" style="display: none;">
+    <div class="toast-container position-fixed top-0 end-0 p-3" id="toast-success">
         <div class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-body">
                 <div class="d-flex justify-content-between p-2">

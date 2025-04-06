@@ -165,10 +165,164 @@
 </x-modal>
 
 {{-- modal show marker details --}}
-<x-modal modal-id="modal-marker-details" modal-title="Details">
-    <x-input type="number"
-        id="x_coordinate"
-        step="any"
-        :required="false"/>
+<x-modal modal-id="modal-marker-details"
+    modal-title="Location Details"
+    modal-dialog-style="width: 95%; max-width: 800px;">
+
+    <div class="row">
+
+        {{-- npks --}}
+        <div class="col-sm-6">
+            <strong>
+                <i class="bi bi-clipboard2-data text-info" style="font-style: normal;"> NPK VALUES</i>
+            </strong>
+
+            <ul>
+                <li>
+                    <strong>N :</strong>
+                    <span id="n-value">0</span>
+                </li>
+                <li>
+                    <strong>P :</strong>
+                    <span id="p-value">0</span>
+                </li>
+                <li>
+                    <strong>K :</strong>
+                    <span id="k-value">0</span>
+                </li>
+            </ul>
+
+        </div>
+
+        {{-- recom plants --}}
+        <div class="col-sm-6">
+            <strong>
+                <i class="bi bi-check-all text-success" style="font-style: normal;"> RECOMMENDED PLANTS</i>
+            </strong>
+
+            <ul id="recommended-plants">
+            </ul>
+
+        </div>
+
+        <hr>
+
+        {{-- recommend fertilizer --}}
+        <div class="col-sm-12">
+            <strong>
+                <i class="bi bi-check-all text-warning" style="font-style: normal;"> RECOMMENDED FERTILIZER</i>
+            </strong>
+
+            <ul id="recommended-fertilizer">
+            </ul>
+
+        </div>
+    </div>
+    {{-- btn close --}}
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-danger" data-bs-dismiss="modal">
+            <i class="bi bi-x" style="font-style: normal;"> Close</i>
+        </button>
+    </div>
+</x-modal>
+
+{{-- show modal edit data input --}}
+<x-modal modal-id="modal-edit-data-input"
+    modal-title="Edit Data Input"
+    modal-dialog-style="width: 95%; max-width: 800px;">
+
+    {{-- form --}}
+    <x-form class="border-0 shadow-none"
+        action="{{route('edit-data-input')}}"
+        method="POST">
+        @method('PUT')
+        {{-- csrf --}}
+        @csrf
+
+        <input type="hidden" name="edit_id" id="edit_data_input_id">
+
+        <div class="row">
+
+            {{-- x-coordinate --}}
+            <div class="col-sm-6 mb-3">
+                <x-input type="number"
+                    step="any"
+                    id="edit_x_coordinate"
+                    name="x_coordinate"
+                    label="X-Coordinate"
+                    :required="true"
+                    style="margin: 0 !important;"/>
+                @error('x_coordinate')
+                    <small class="text-danger">{{$message}}</small>
+                @enderror
+            </div>
+
+            {{-- y coordinate --}}
+            <div class="col-sm-6 mb-3">
+                <x-input type="number"
+                    step="any"
+                    id="edit_y_coordinate"
+                    name="y_coordinate"
+                    label="Y-Coordinate"
+                    :required="true"
+                    style="margin: 0 !important;"/>
+                @error('y_coordinate')
+                    <small class="text-danger">{{$message}}</small>
+                @enderror
+            </div>
+
+            {{-- Nitrogen --}}
+            <div class="col-sm-6 mb-3">
+                <x-input type="number"
+                    step="any"
+                    id="edit_n"
+                    name="n"
+                    label="N"
+                    :required="true"
+                    style="margin: 0 !important;"/>
+                @error('n')
+                    <small class="text-danger">{{$message}}</small>
+                @enderror
+            </div>
+
+            {{-- Nitrogen --}}
+            <div class="col-sm-6 mb-3">
+                <x-input type="number"
+                    step="any"
+                    id="edit_p"
+                    name="p"
+                    label="P"
+                    :required="true"
+                    style="margin: 0 !important;"/>
+                @error('p')
+                    <small class="text-danger">{{$message}}</small>
+                @enderror
+            </div>
+
+            {{-- Nitrogen --}}
+            <div class="col-sm-6 mb-3">
+                <x-input type="number"
+                    step="any"
+                    id="edit_k"
+                    name="k"
+                    label="K"
+                    :required="true"
+                    style="margin: 0 !important;"/>
+                @error('k')
+                    <small class="text-danger">{{$message}}</small>
+                @enderror
+            </div>
+        </div>
+
+        {{-- btns --}}
+        <x-button
+            type="submit"
+            class-type="success">
+
+            <i class="bi bi-check-lg"
+                style="font-style: normal;"> Update</i>
+
+        </x-button>
+    </x-form>
 </x-modal>
 

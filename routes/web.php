@@ -13,6 +13,9 @@ Route::get('/', function () { return view('pages.dashboard'); })
 // data input restrict to admin only
 Route::get('/data-input', [DataInputController::class, 'view_data_input'])->name('data-input')->middleware('auth_checker');
     Route::post('/add-data', [DataInputController::class, 'addData'])->name('add-data-input')->middleware('auth_checker');
+    Route::put('/edit-data', [DataInputController::class, 'editData'])->name('edit-data-input')->middleware('auth_checker');
+    Route::delete('/delete-data-input/{id}', [DataInputController::class, 'deleteData'])->name('delete-data-input')->middleware('auth_checker');
+
 
 // add brgy
 Route::post('/add-brgy', [BarangayController::class, 'addBarangay'])->name('add-brgy')->middleware('auth_checker');

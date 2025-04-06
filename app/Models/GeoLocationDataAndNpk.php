@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Barangay;
+use Illuminate\Support\Facades\Log;
+
+use function Laravel\Prompts\error;
 
 class GeoLocationDataAndNpk extends Model
 {
@@ -25,6 +29,57 @@ class GeoLocationDataAndNpk extends Model
         try {
             return $query->select('*')
                 ->where('brgy_id', $id);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    // relation to brgy
+    public function brgy() {
+        return $this->belongsTo(Barangay::class, 'brgy_id');
+    }
+
+    // delete a row
+    public static function delete_row($id) : bool {
+        try {
+            $item = self::find($id); // get item
+
+            /**
+             * if item not found
+             * then log errors
+             * return false
+             */
+            if(!$item){
+                Log::error("404 data input not found in database");
+                return false;
+            }
+
+            $delete_status = $item->delete(); // soft delete item
+
+            /**
+             * check if false
+             * if false then log error
+             * then return false
+             */
+            if(!$delete_status){
+                Log::error("Failed to delete item in database!");
+                return false;
+            }
+
+            return true; // returns true
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    // edit data
+    public static function update_row(array $data, $id) {
+        try {
+            $item = self::find($id);
+
+            $status = $item->update($data);
+
+            return $status;
         } catch (\Throwable $th) {
             throw $th;
         }
