@@ -151,4 +151,15 @@ class DataInputController extends Controller
             throw $th;
         }
     }
+
+    // data import
+    public function dataImport(Request $request) {
+        try {
+
+        } catch (\Throwable $th) {
+            session()->flash('error', "Failed to import data");
+            Log::error($th->getMessage());
+            return redirect()->back();
+        }
+    }
 }

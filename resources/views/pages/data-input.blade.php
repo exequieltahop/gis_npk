@@ -1,14 +1,14 @@
 <x-auth-layout>
+    {{-- btn import excel --}}
+    <x-button type="button" class-type="primary mb-3" data-bs-toggle="modal" data-bs-target="#modal-form-import-excel">
+        <i class="bi bi-upload" style="font-style: normal;"> Import Excel</i>
+    </x-button>
 
     {{-- card data input --}}
-    <x-card card-title="Data Input"
-        card-body-class="px-3 py-2 d-flex justify-content-center"
-        class="shadow-lg mb-3">
+    <x-card card-title="Data Input" card-body-class="px-3 py-2 d-flex justify-content-center" class="shadow-lg mb-3">
 
         {{-- form --}}
-        <x-form class="border-0 shadow-none"
-            action="{{route('add-data-input')}}"
-            method="POST">
+        <x-form class="border-0 shadow-none" action="{{route('add-data-input')}}" method="POST">
 
             {{-- csrf --}}
             @csrf
@@ -16,102 +16,71 @@
             <div class="row">
                 <div class="col-sm-6 mb-3">
                     {{-- brgy --}}
-                    <x-select id="select_brgy"
-                        label="Barangay"
-                        :required="false"
-                        style="margin: 0 !important;">
+                    <x-select id="select_brgy" label="Barangay" :required="false" style="margin: 0 !important;">
 
                         <option value="" selected>--SELECT BRGY--</option>
 
                         {{-- loop the brgys in the database --}}
                         @foreach (App\Models\Barangay::getAll() as $item)
-                            <option value="{{$item->encrypted_id}}">{{$item->name}}</option>
+                        <option value="{{$item->encrypted_id}}">{{$item->name}}</option>
                         @endforeach
                     </x-select>
                     @error('brgy')
-                        <small class="text-danger">{{$message}}</small>
+                    <small class="text-danger">{{$message}}</small>
                     @enderror
                 </div>
 
 
                 {{-- x-coordinate --}}
                 <div class="col-sm-6 mb-3">
-                    <x-input type="number"
-                        step="any"
-                        id="x_coordinate"
-                        name="x_coordinate"
-                        label="X-Coordinate"
-                        :required="true"
-                        style="margin: 0 !important;"/>
+                    <x-input type="number" step="any" id="x_coordinate" name="x_coordinate" label="X-Coordinate"
+                        :required="true" style="margin: 0 !important;" />
                     @error('x_coordinate')
-                        <small class="text-danger">{{$message}}</small>
+                    <small class="text-danger">{{$message}}</small>
                     @enderror
                 </div>
 
                 {{-- y coordinate --}}
                 <div class="col-sm-6 mb-3">
-                    <x-input type="number"
-                        step="any"
-                        id="y_coordinate"
-                        name="y_coordinate"
-                        label="Y-Coordinate"
-                        :required="true"
-                        style="margin: 0 !important;"/>
+                    <x-input type="number" step="any" id="y_coordinate" name="y_coordinate" label="Y-Coordinate"
+                        :required="true" style="margin: 0 !important;" />
                     @error('y_coordinate')
-                        <small class="text-danger">{{$message}}</small>
+                    <small class="text-danger">{{$message}}</small>
                     @enderror
                 </div>
 
                 {{-- Nitrogen --}}
                 <div class="col-sm-6 mb-3">
-                    <x-input type="number"
-                        step="any"
-                        id="n"
-                        name="n"
-                        label="N"
-                        :required="true"
-                        style="margin: 0 !important;"/>
+                    <x-input type="number" step="any" id="n" name="n" label="N" :required="true"
+                        style="margin: 0 !important;" />
                     @error('n')
-                        <small class="text-danger">{{$message}}</small>
+                    <small class="text-danger">{{$message}}</small>
                     @enderror
                 </div>
 
                 {{-- Nitrogen --}}
                 <div class="col-sm-6 mb-3">
-                    <x-input type="number"
-                        step="any"
-                        id="p"
-                        name="p"
-                        label="P"
-                        :required="true"
-                        style="margin: 0 !important;"/>
+                    <x-input type="number" step="any" id="p" name="p" label="P" :required="true"
+                        style="margin: 0 !important;" />
                     @error('p')
-                        <small class="text-danger">{{$message}}</small>
+                    <small class="text-danger">{{$message}}</small>
                     @enderror
                 </div>
 
                 {{-- Nitrogen --}}
                 <div class="col-sm-6 mb-3">
-                    <x-input type="number"
-                        step="any"
-                        id="k"
-                        name="k"
-                        label="K"
-                        :required="true"
-                        style="margin: 0 !important;"/>
+                    <x-input type="number" step="any" id="k" name="k" label="K" :required="true"
+                        style="margin: 0 !important;" />
                     @error('k')
-                        <small class="text-danger">{{$message}}</small>
+                    <small class="text-danger">{{$message}}</small>
                     @enderror
                 </div>
             </div>
 
             {{-- btns --}}
-            <x-button
-                type="submit"
-                class-type="success">
+            <x-button type="submit" class-type="success">
 
-                <i class="bi bi-check-lg"
-                    style="font-style: normal;"> submit</i>
+                <i class="bi bi-check-lg" style="font-style: normal;"> submit</i>
 
             </x-button>
         </x-form>
@@ -119,14 +88,10 @@
     </x-card>
 
     {{-- data input list --}}
-    <x-card card-title="Data Input List"
-        card-body-class=""
-        class="shadow-lg ">
+    <x-card card-title="Data Input List" card-body-class="" class="shadow-lg ">
 
         {{-- table --}}
-        <x-table id="table-data-inputs"
-            class=""
-            table-class="w-100 table-hover">
+        <x-table id="table-data-inputs" class="" table-class="w-100 table-hover">
 
             <thead class="align-middle">
                 <th>No.</th>
@@ -143,55 +108,44 @@
             <tbody>
 
                 @foreach ($data_inputs_data as $item)
-                    <tr class="align-middle">
-                        <td>{{$loop->iteration}}</td>
-                        <td>{{$item->brgy->name}}</td>
-                        <td>{{$item->x_coordinate}}</td>
-                        <td>{{$item->y_coordinate}}</td>
-                        <td>{{$item->n}}</td>
-                        <td>{{$item->p}}</td>
-                        <td>{{$item->k}}</td>
-                        <td>{{$item->created_at->format('Y-m-d')}}</td>
-                        <td class="text-center">
+                <tr class="align-middle">
+                    <td>{{$loop->iteration}}</td>
+                    <td>{{$item->brgy->name}}</td>
+                    <td>{{$item->x_coordinate}}</td>
+                    <td>{{$item->y_coordinate}}</td>
+                    <td>{{$item->n}}</td>
+                    <td>{{$item->p}}</td>
+                    <td>{{$item->k}}</td>
+                    <td>{{$item->created_at->format('Y-m-d')}}</td>
+                    <td class="text-center">
 
-                            {{-- dropdown --}}
-                            <div class="dropdown">
+                        {{-- dropdown --}}
+                        <div class="dropdown">
 
-                                {{-- toggler --}}
-                                <i class="bi bi-three-dots-vertical"
-                                    data-bs-toggle="dropdown"
-                                    style="cursor: pointer;"></i>
+                            {{-- toggler --}}
+                            <i class="bi bi-three-dots-vertical" data-bs-toggle="dropdown" style="cursor: pointer;"></i>
 
-                                {{-- menu --}}
-                                <ul class="dropdown-menu">
+                            {{-- menu --}}
+                            <ul class="dropdown-menu">
 
-                                    {{-- edit --}}
-                                    <li class="dropdown-item edit-data-input-btn"
-                                        style="cursor: pointer;"
+                                {{-- edit --}}
+                                <li class="dropdown-item edit-data-input-btn" style="cursor: pointer;"
+                                    data-id="{{$item->encrypted_id}}" data-brgy-name="{{$item->brgy->name}}"
+                                    data-x="{{$item->x_coordinate}}" data-y="{{$item->y_coordinate}}"
+                                    data-n="{{$item->n}}" data-p="{{$item->p}}" data-k="{{$item->k}}"
+                                    data-bs-toggle="modal" data-bs-target="#modal-edit-data-input">
+                                    <i class="bi bi-pencil-square text-success" style="font-style: normal;"> Edit</i>
+                                </li>
 
-                                        data-id="{{$item->encrypted_id}}"
-                                        data-brgy-name="{{$item->brgy->name}}"
-                                        data-x="{{$item->x_coordinate}}"
-                                        data-y="{{$item->y_coordinate}}"
-                                        data-n="{{$item->n}}"
-                                        data-p="{{$item->p}}"
-                                        data-k="{{$item->k}}"
-
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#modal-edit-data-input">
-                                        <i class="bi bi-pencil-square text-success" style="font-style: normal;"> Edit</i>
-                                    </li>
-
-                                    {{-- delete --}}
-                                    <li class="dropdown-item delete-data-input-btn"
-                                        style="cursor: pointer;"
-                                        data-id="{{$item->encrypted_id}}">
-                                        <i class="bi bi-trash text-danger" style="font-style: normal;"> Delete</i>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
+                                {{-- delete --}}
+                                <li class="dropdown-item delete-data-input-btn" style="cursor: pointer;"
+                                    data-id="{{$item->encrypted_id}}">
+                                    <i class="bi bi-trash text-danger" style="font-style: normal;"> Delete</i>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </x-table>

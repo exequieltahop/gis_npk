@@ -15,6 +15,7 @@ Route::get('/data-input', [DataInputController::class, 'view_data_input'])->name
     Route::post('/add-data', [DataInputController::class, 'addData'])->name('add-data-input')->middleware('auth_checker');
     Route::put('/edit-data', [DataInputController::class, 'editData'])->name('edit-data-input')->middleware('auth_checker');
     Route::delete('/delete-data-input/{id}', [DataInputController::class, 'deleteData'])->name('delete-data-input')->middleware('auth_checker');
+    Route::delete('/data-import', [DataInputController::class, 'dataImport'])->name('data-import')->middleware('auth_checker');
 
 
 // add brgy
