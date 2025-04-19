@@ -8,10 +8,7 @@ use App\Http\Controllers\BarangayDataController;
 use App\Http\Controllers\HeatMap;
 
 // dashboard
-Route::get('/', function () {
-    return view('pages.dashboard');
-})
-    ->name('dashboard');
+Route::get('/', function () { return view('pages.dashboard'); })->name('dashboard');
 
 // data input restrict to admin only
 Route::get('/data-input', [DataInputController::class, 'view_data_input'])->name('data-input')->middleware('auth_checker');
@@ -38,3 +35,4 @@ Route::get('/get-brgy-data/{id}', [BarangayDataController::class, 'getBrgyDataVi
 Route::get('/heat-map', [HeatMap::class, 'index'])->name('heat-map');
 Route::post('/add-polygon', [HeatMap::class, 'addPolygon'])->middleware('auth_checker');
 Route::get('/get-heatmap-data/{type}', [HeatMap::class, 'getHeatMapData']);
+Route::delete('/delete-polygon/{id}', [HeatMap::class, 'deletePolygon'])->middleware('auth_checker');

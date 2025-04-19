@@ -86,17 +86,49 @@ class HeatMap extends Controller
     }
 
     // get heat map data
-    public function getHeatMapData($type) {
+    public function getHeatMapData($type)
+    {
         try {
             $data = BrgyHeatmapPolygon::getHeatMapData()
                 ->get()
-                ->map(function($item) use ($type){
+                ->map(function ($item) use ($type) {
                     $item->avg = GeoLocationDataAndNpk::where('brgy_id', $item->barangay_id)
                         ->avg($type);
                     return $item;
                 });
 
             return response()->json($data, 200); // repsonse 200 with data
+        } catch (\Throwable $th) {
+            /**
+             * log error
+             * response 500
+             */
+            Log::error($th->getMessage());
+            return response(null, 500);
+        }
+    }
+
+    // delete polygon
+    public function deletePolygon($id)
+    {
+        try {
+            // decrypt id
+            $decrypted_id = Crypt::decrypt($id);
+
+            // delete row
+            $delete_status = BrgyHeatmapPolygon::deleteRow($decrypted_id);
+
+            // if failed to delete then throw new exception
+            if (!$delete_status) {
+                throw new Exception("Failed to delete polygon");
+            }
+
+            /**
+             * session success
+             * respones 200
+             */
+            session()->flash("success", "Successfully Delete Polygon");
+            return response(null, 200);
         } catch (\Throwable $th) {
             /**
              * log error

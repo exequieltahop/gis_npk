@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // get heatmap data
     const heatMapData = await getHeatMapData(document.getElementById('type').value);
+
     // Initialize the map
     var map = L.map('map').setView([10.004, 125.22], 13);
 
@@ -70,35 +71,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    // Add GeoJSON as choropleth
-    let geojson = L.geoJson(heatMapData, {
-        style: style,
-        onEachFeature: onEachFeature
-    }).addTo(map);
+    /**
+     * if heatMapData was not empty
+     * then display polygon
+     * else not
+     */
+    if (heatMapData.length != 0) {
+        // Add GeoJSON as choropleth
+        var geojson = L.geoJson(heatMapData, {
+            style: style,
+            onEachFeature: onEachFeature
+        }).addTo(map);
 
-    // Fit map to polygon bounds
-    map.fitBounds(geojson.getBounds());
-
-    // // Create a FeatureGroup to store editable layers
-    // var drawnItems = new L.FeatureGroup();
-    // map.addLayer(drawnItems);
-
-    // // Add drawing controls
-    // var drawControl = new L.Control.Draw({
-    //     edit: {
-    //         featureGroup: drawnItems
-    //     },
-    //     draw: {
-    //         polygon: true,
-    //         marker: false,
-    //         polyline: false,
-    //         rectangle: false,
-    //         circle: false,
-    //         circlemarker: false
-    //     }
-    // });
-
-    // map.addControl(drawControl);
+        // Fit map to polygon bounds
+        map.fitBounds(geojson.getBounds());
+    }
 
     // custom legend
     var legend = L.control({ position: 'bottomright' });
@@ -144,6 +131,10 @@ async function getHeatMapData(type) {
 
         // Parse the response JSON
         const data = await response.json();
+
+        if(data.length == 0){
+            return [];
+        }
 
         // Log the fetched data for debugging
 

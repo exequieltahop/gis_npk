@@ -47,12 +47,11 @@
                 <th>No</th>
                 <th>Barangay</th>
                 <th>Polygon Status</th>
-                <th>Polygon</th>
                 <th>Action</th>
             </thead>
             <tbody>
                 {{-- loop data --}}
-                @forelse ($brgys as $item)
+                @foreach ($brgys as $item)
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$item->name}}</td>
@@ -60,19 +59,11 @@
                         {{ $item->polygon_coordinate == null ? 'None' : 'Has Polygon'}}
                     </td>
                     <td>
-                        {{-- view map with polygon --}}
-                        <x-button type="button" class-type="" class="text-info fw-bold"
-                            data-id="{{$item->encrypted_id}}">
-                            <i class="bi bi-eye" style="font-style: normal;"> View Polygon</i>
-                        </x-button>
-                    </td>
-                    <td>
                         <div class="dropdown">
                             <i class="bi bi-three-dots-vertical" data-bs-toggle="dropdown"></i>
                             <ul class="dropdown-menu">
-
                                 {{-- delete polygon --}}
-                                <li class="dropdown-item py-2" style="cursor: pointer;"
+                                <li class="dropdown-item py-2 polygon-delete-btn" style="cursor: pointer;"
                                     data-id="{{$item->encrypted_id}}">
                                     <i class="bi bi-trash-fill text-danger fw-bold" style="font-style: normal;"> Delete
                                         Polygon</i>
@@ -81,11 +72,7 @@
                         </div>
                     </td>
                 </tr>
-                @empty
-                <tr>
-                    <td colspan="5" class="text-center">No Data</td>
-                </tr>
-                @endforelse
+                @endforeach
             </tbody>
         </x-table>
     </x-card>

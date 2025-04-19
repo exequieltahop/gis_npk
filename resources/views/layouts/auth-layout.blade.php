@@ -6,8 +6,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="theme-color" content="#005e00" />
+    <link rel="apple-touch-icon" href="{{ asset('fcsit.png') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+
+
     <title>{{$title}}</title>
 
+    <link rel="shortcut icon" href="{{ asset('fcsit.png') }}" type="image/x-icon">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- jQuery (full version) -->
@@ -134,6 +141,21 @@
             </div>
         </div>
     </div>
+
+    {{-- script pwd --}}
+    <script src="{{ asset('sw.js') }}"></script>
+    <script>
+        if (!navigator.serviceWorker.controller) {
+
+            navigator.serviceWorker.register("/sw.js").
+
+            then(function (reg) {
+
+                console.log("Service worker has been registered for scope: " + reg.scope);
+
+            });
+        }
+    </script>
 </body>
 
 </html>

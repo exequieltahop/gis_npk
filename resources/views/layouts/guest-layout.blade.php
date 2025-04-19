@@ -2,12 +2,18 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ $title }}</title>
 
+    <meta name="theme-color" content="#005e00" />
+    <link rel="apple-touch-icon" href="{{ asset('logo.png') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+
+    <title>{{ $title }}</title>
+    <link rel="shortcut icon" href="{{ asset('fcsit.png') }}" type="image/x-icon">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- jQuery (full version) -->
@@ -43,7 +49,7 @@
     {{-- style --}}
     <style>
         html {
-            --primary-color: rgb(0, 94, 0);
+            --primary-color: #005e00;
         }
 
         .active {
@@ -66,6 +72,7 @@
     </style>
 
 </head>
+
 <body class="bg-light">
     {{-- aside side bar --}}
     <div class="d-flex m-0 vh-100">
@@ -78,11 +85,9 @@
             {{-- header --}}
             <header class=" rounded bbg-white shadow-lg p-3 mb-3">
                 <div class="d-flex align-items-center">
-                    <button style="all:unset;"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#sidebar-menu"
+                    <button style="all:unset;" data-bs-toggle="offcanvas" data-bs-target="#sidebar-menu"
                         aria-controls="staticBackdrop">
-                        <i class="d-sm-none d-block bi bi-list"  style="font-size: 1.5rem;"></i>
+                        <i class="d-sm-none d-block bi bi-list" style="font-size: 1.5rem;"></i>
                     </button>
                     <h5 class="m-0 mx-3 text-center">GIS NPK IS</h5>
                 </div>
@@ -105,16 +110,16 @@
 
     {{-- errors --}}
     @if (session('error'))
-        <x-toast type="danger">
-            {{ session('error') }}
-        </x-toast>
+    <x-toast type="danger">
+        {{ session('error') }}
+    </x-toast>
     @endif
 
     {{-- success --}}
     @if (session('success'))
-        <x-toast type="success">
-            {{ session('success') }}
-        </x-toast>
+    <x-toast type="success">
+        {{ session('success') }}
+    </x-toast>
     @endif
 
     {{-- toast for error and success for js only --}}
@@ -145,5 +150,20 @@
         </div>
     </div>
 
+    {{-- script pwd --}}
+    <script src="{{ asset('sw.js') }}"></script>
+    <script>
+        if (!navigator.serviceWorker.controller) {
+
+            navigator.serviceWorker.register("/sw.js").
+
+            then(function (reg) {
+
+                console.log("Service worker has been registered for scope: " + reg.scope);
+
+            });
+        }
+    </script>
 </body>
+
 </html>

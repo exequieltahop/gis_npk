@@ -37,4 +37,16 @@ class BrgyHeatmapPolygon extends Model
             throw $th;
         }
     }
+
+    // delete row
+    public static function deleteRow($id) : bool {
+        try {
+            $item = self::findOrFail($id); // get row
+
+            return $item->delete(); // return bool result from deleted row
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }

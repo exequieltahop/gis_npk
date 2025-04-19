@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // get heatmap data
     const heatMapData = await getHeatMapData(document.getElementById('type').value);
+
     // Initialize the map
     var map = L.map('map').setView([10.004, 125.22], 13);
 
@@ -69,14 +70,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    // Add GeoJSON as choropleth
-    var geojson = L.geoJson(heatMapData, {
-        style: style,
-        onEachFeature: onEachFeature
-    }).addTo(map);
+    /**
+     * if heatMapData was not empty
+     * then display polygon
+     * else not
+     */
+    if (heatMapData.length != 0) {
+        // Add GeoJSON as choropleth
+        var geojson = L.geoJson(heatMapData, {
+            style: style,
+            onEachFeature: onEachFeature
+        }).addTo(map);
 
-    // Fit map to polygon bounds
-    map.fitBounds(geojson.getBounds());
+        // Fit map to polygon bounds
+        map.fitBounds(geojson.getBounds());
+    }
 
     // Create a FeatureGroup to store editable layers
     var drawnItems = new L.FeatureGroup();
@@ -167,6 +175,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // filter map
     filter_map(map, geojson, style, onEachFeature);
+
+    // new data table table brgy list of polygon
+    const table_list_polygon = new DataTable('#table-brgy-list-heatmap', {
+        responsive: true
+    })
+
+    // init delete polygon
+    delete_polygon(table_list_polygon);
 });
 
 // get heat map data
@@ -191,7 +207,9 @@ async function getHeatMapData(type) {
         const data = await response.json();
 
         // Log the fetched data for debugging
-
+        if (data.length == 0) {
+            return [];
+        }
         // Prepare the heatmap data
         let counter = 1;
         let feature_data = [];
@@ -247,7 +265,6 @@ async function getHeatMapData(type) {
         toast_element.show();
     }
 }
-
 
 // submit filter
 function filter_map(map, geojson, style, onEachFeature) {
@@ -349,4 +366,63 @@ function filter_map(map, geojson, style, onEachFeature) {
         }
     };
 
+}
+
+// delete polygon
+function delete_polygon(table) {
+    // onclick delete btn
+    table.on('click', '.polygon-delete-btn', async function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        const id = e.currentTarget.dataset.id; //get encrypted id
+
+        // prompt delete confirmation
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) { //if delete confirm delete data
+                try {
+                    /**
+                     * url
+                     * delete request fetch api
+                     */
+                    const url = `/delete-polygon/${id}`;
+                    const response = await fetch(url, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    });
+
+                    // if not ok then error thrown else reload page
+                    if (!response.ok) {
+                        throw new Error("");
+                    } else {
+                        window.location.reload();
+                    }
+                } catch (error) {
+                    // Log the error for debugging
+                    console.error(error);
+
+                    // Show a toast message for failure
+                    const error_toastr = document.getElementById('toast-danger');
+                    const message = document.getElementById("toast-danger-message");
+
+                    message.textContent = "Failed to delete heatmap polygon";
+                    error_toastr.style.display = 'block';
+
+                    toast_element.show();
+                }
+            }
+        });
+
+
+    });
 }
