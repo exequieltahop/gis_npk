@@ -242,7 +242,7 @@
     </x-form>
 </x-modal>
 
-modal-form-import-excel
+{{-- modal-form-import-excel --}}
 
 <x-modal modal-id="modal-form-import-excel" modal-title="Data Import">
 
@@ -253,7 +253,7 @@ modal-form-import-excel
         {{-- btns --}}
         <x-button type="submit" class-type="success">
 
-            <i class="bi bi-check-lg" style="font-style: normal;"> submit</i>
+            <i class="bi bi-check-lg" style="font-style: normal;"> Submit</i>
 
         </x-button>
     </x-form>

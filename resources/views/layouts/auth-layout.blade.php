@@ -1,6 +1,7 @@
 @props(['title' => 'App', 'header' => '', 'footer' => ''])
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,19 +38,20 @@
     {{-- main script --}}
     <script src="{{asset('assets/js/main.js')}}"></script>
 
-    {{-- style  --}}
+    {{-- style --}}
     <style>
-        html{
-            --primary-color : rgb(0, 94, 0);
+        html {
+            --primary-color: rgb(0, 94, 0);
         }
-        .active{
+
+        .active {
             background-color: var(--primary-color) !important;
             color: white !important;
             border-radius: 5px !important;
             /* width: 100% !important; */
         }
 
-        .dt-layout-full{
+        .dt-layout-full {
             overflow: auto !important;
         }
 
@@ -61,6 +63,7 @@
         }
     </style>
 </head>
+
 <body class="bg-light">
 
     {{-- aside side bar --}}
@@ -72,11 +75,9 @@
         <div class="d-flex flex-column p-3 mb-3 w-100">
             <header class="rounded bg-white shadow-lg p-3 mb-3">
                 <div class="d-flex align-items-center">
-                    <button style="all:unset;"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#sidebar-menu"
+                    <button style="all:unset;" data-bs-toggle="offcanvas" data-bs-target="#sidebar-menu"
                         aria-controls="staticBackdrop">
-                        <i class="d-sm-none d-block bi bi-list"  style="font-size: 1.5rem;"></i>
+                        <i class="d-sm-none d-block bi bi-list" style="font-size: 1.5rem;"></i>
                     </button>
                     <h5 class="m-0 mx-3 text-center">GIS NPK IS</h5>
                 </div>
@@ -97,16 +98,16 @@
 
     {{-- errors --}}
     @if (session('error'))
-        <x-toast type="danger">
-            {{ session('error') }}
-        </x-toast>
+    <x-toast type="danger">
+        {{ session('error') }}
+    </x-toast>
     @endif
 
     {{-- success --}}
     @if (session('success'))
-        <x-toast type="success">
-            {{ session('success') }}
-        </x-toast>
+    <x-toast type="success">
+        {{ session('success') }}
+    </x-toast>
     @endif
 
     {{-- toast for error and success for js only --}}
@@ -134,4 +135,5 @@
         </div>
     </div>
 </body>
+
 </html>

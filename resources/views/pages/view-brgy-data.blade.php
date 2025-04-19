@@ -1,12 +1,7 @@
 <x-guest-layout>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-     crossorigin=""/>
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""></script>
-
+    <script async src="https://cse.google.com/cse.js?cx=a6beeb9ed21604882">
+    </script>
+    <div class="gcse-search"></div>
     {{-- hidden input --}}
     <x-input type="hidden"
         id="hidden-brgy-id"
@@ -60,13 +55,14 @@
                     const data = response_json.data;
 
                     // make map
-                    const map = L.map('map').setView([data[0].x_coordinate, data[0].y_coordinate], 13);
+                    const map = L.map('map').setView([10.004, 125.22], 13);
 
                     // set as osm attribute
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; OpenStreetMap contributors',
                         maxZoom: 19,
                     }).addTo(map);
+
 
                     // loop data for adding the marker
                     for (const element of data) {

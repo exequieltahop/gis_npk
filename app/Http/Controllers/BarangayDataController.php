@@ -10,13 +10,12 @@ use Illuminate\Support\Facades\Crypt;
 class BarangayDataController extends Controller
 {
     // view blade brgy data
-    public function viewBrgyDataView($id) {
+    public function viewBrgyDataView($id)
+    {
         try {
-
             return view('pages.view-brgy-data', [
                 'brgyId' => $id
             ]);
-
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             abort(500);
@@ -24,7 +23,8 @@ class BarangayDataController extends Controller
     }
 
     // get brgy data
-    public function getBrgyDataView($id) {
+    public function getBrgyDataView($id)
+    {
         try {
             //decrypt id
             $decrypted_id = Crypt::decrypt($id);
@@ -32,13 +32,13 @@ class BarangayDataController extends Controller
             // get data
             $data = GeoLocationDataAndNpk::getDataPerBrgy($decrypted_id)
                 ->get()
-                ->map(function($query){
+                ->map(function ($query) {
                     $query->encrypted_id = Crypt::encrypt($query->id);
                     $query->recommended = $this->getRecommendedPlantsAndFertilizer($query->n, $query->p, $query->k);
                     return $query;
                 });
 
-            return response()->json(['data' => $data], 200); //response 200 with data
+            return response()->json(['data' => $data ?? []], 200); //response 200 with data
 
         } catch (\Throwable $th) {
             /**
@@ -50,7 +50,8 @@ class BarangayDataController extends Controller
     }
 
     // get recommended plants and fertilizer
-    public function getRecommendedPlantsAndFertilizer($n, $p, $k) : array {
+    public function getRecommendedPlantsAndFertilizer($n, $p, $k): array
+    {
         try {
             // nitrogen
             $low_n_plants = [
@@ -201,7 +202,6 @@ class BarangayDataController extends Controller
                 'plants' => $data_plant,
                 'fertilizers' => $data_fertilizer
             ];
-
         } catch (\Throwable $th) {
             throw $th;
         }

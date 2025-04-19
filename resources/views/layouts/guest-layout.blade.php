@@ -40,22 +40,25 @@
 
     {{-- Custom Styles --}}
 
+    {{-- style --}}
     <style>
         html {
             --primary-color: rgb(0, 94, 0);
         }
+
         .active {
             background-color: var(--primary-color) !important;
             color: white !important;
             border-radius: 5px !important;
+            /* width: 100% !important; */
         }
-        .dt-layout-full{
+
+        .dt-layout-full {
             overflow: auto !important;
         }
 
-
-       /* Media query for max-width of 575px */
-        @media only screen and (max-width: 600px) {
+        /* Media query for max-width of 575px */
+        @media all and (width: 575px) {
             aside {
                 padding: 0 !important;
             }
@@ -115,6 +118,8 @@
     @endif
 
     {{-- toast for error and success for js only --}}
+
+    {{-- error --}}
     <div class="toast-container position-fixed top-0 end-0 p-3" id="toast-danger" style="display: none;">
         <div class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-body">
@@ -127,6 +132,7 @@
         </div>
     </div>
 
+    {{-- success --}}
     <div class="toast-container position-fixed top-0 end-0 p-3" id="toast-success" style="display: none;">
         <div class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-body">

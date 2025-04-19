@@ -155,7 +155,9 @@ class DataInputController extends Controller
     // data import
     public function dataImport(Request $request) {
         try {
-
+            $request->validate([
+                'file_import' => ['required', 'mimes:xlxs, csv'],
+            ]);
         } catch (\Throwable $th) {
             session()->flash('error', "Failed to import data");
             Log::error($th->getMessage());
